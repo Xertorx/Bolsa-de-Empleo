@@ -71,7 +71,7 @@
 
                 <div class="mb-3 w-75">
                     <label class="form-label">Tipo de Usuario</label>
-                   <select class="form-select" th:field="*{codigo}" required>
+                   <select class="form-select" th:field="*{tipo_usuario}" required>
                         <option value="">Seleccione un tipo de usuario</option>
                         <option th:each="tipo : ${tiposUsuario}"
                                 th:value="${tipo.codigo}"

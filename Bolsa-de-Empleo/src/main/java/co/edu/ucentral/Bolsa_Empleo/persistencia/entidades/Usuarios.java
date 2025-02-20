@@ -16,8 +16,8 @@ import lombok.Setter;
 public class Usuarios {
 
     @Id
-    @Column(name = "identificacion")
-    private Integer identificacion;
+    @Column(name = "codigo")
+    private Integer codigo;
 
     @Column(name = "nombres")
     private String nombres;
@@ -27,6 +27,12 @@ public class Usuarios {
 
     @Column(name = "direccion")
     private String direccion;
+
+    @Column(name = "tipo_identificacion")
+    private String tipo_identificacion;
+
+    @Column(name = "numero_identificacion")
+    private Integer numero_identificacion;
 
     @Column(name = "telefono")
     private String telefono;
@@ -40,7 +46,7 @@ public class Usuarios {
 
     @ManyToOne
     @JoinColumn(name = "tipo_usuario", referencedColumnName = "codigo", nullable = false)
-    private TipoUsuario codigo;
+    private TipoUsuario tipo_usuario;
 
 
 }
