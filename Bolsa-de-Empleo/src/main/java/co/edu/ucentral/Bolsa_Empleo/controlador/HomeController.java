@@ -21,6 +21,10 @@ public class HomeController {
     public String prueba3() {
         return "Candidatos/datosPersonales"; // nombre del archivo login.html
     }
+    @GetMapping({"/postulacion/curriculum"})
+    public String prueba4() {
+        return "Candidatos/curriculum"; // nombre del archivo login.html
+    }
 
 
 }
