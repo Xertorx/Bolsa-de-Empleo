@@ -5,13 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Empléate</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style >
+    <style>
         body {
               font-family: Arial, sans-serif;
               min-height: 100vh;
               display: flex;
               flex-direction: column;
           }
+         .hero {
+            margin-bottom : 20px;
+            flex-grow: 1;
+            margin-top : 100px;
+        }
+        .hero2 {
+            margin-bottom : 20px;
+            flex-grow: 1;
+        }
+        .hero2 h1 {
+            color: #007f3d;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .hero h1 {
+            color: #007f3d;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .container-fluid h1{
+            color: #007f3d;
+            font-weight: bold;
+            margin-bottom: 20px;
+
+        }
+        .container-fluid {
+            margin-bottom : 20px;
+            padding-left: 160px;
+            flex-grow: 1;
+            margin-top : 30px;
+        }
+
 
     </style>
 </head>
@@ -19,12 +51,179 @@
 <nav th:replace="~{layout :: navbar}">
 
 </nav>
-<div class="d-flex div-central .border border-sucess">
+<div class="d-flex flex-column div-central justify-content-center">
+    <div class="hero w-100">
+        <div class="container d-flex flex-column align-items-center w-100 text-center p-4">
+            <h1>Bienvenido a Empléate</h1>
+            <p>Encontrarás muchas ofertas laborales disponibles para diferentes categorías. Siéntete libre de explorar
+                todas las ofertas laborales.</p>
+        </div>
+    </div>
+    <div class="hero2 w-100">
+        <div class="container d-flex flex-column align-items-center w-100 text-center p-4">
+            <h1 class="fs-5">Encuentra tu empleo Ideal</h1>
+            <di class="row w-100 ">
+                <div class="col-md-6 mb-3">
+                    <select class="form-select" required>
+                        <option value="">Categoria</option>
+                        <option value="C.C">Cédula</option>
+                        <option value="T.I">Tarjeta de Identidad</option>
+                        <option value="PA">Pasaporte</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <select class="form-select" required>
+                        <option value="">Ciudad</option>
+                        <option value="C.C">Cédula</option>
+                        <option value="T.I">Tarjeta de Identidad</option>
+                        <option value="PA">Pasaporte</option>
+                    </select>
+                </div>
+            </di>
+        </div>
+    </div>
+    <div class="container-fluid mb-5">
+        <h1 class="fs-5">Empleos mas Recientes</h1>
+        <div class="row mt-5">
+            <!-- Lista de empleos -->
+            <div class="col-md-5">
+                <div class="list-group"  >
+                    <a href="#" class="list-group-item list-group-item-action " >
+                        <div class="d-flex w-100 align-items-center" style="height: 100px;">
+                            <img th:src="@{/assets/IMG-5.png}" alt="Imagen de ejemplo" class="me-2" width="50px">
+                            <div class="flex-grow-1 ">
+                                <h6 class="mb-1">Desarrollador de Software</h6>
+                                <small>Bogotá D.C</small>
+                            </div>
+                            <div class="w-50">
+                                <small>Temporal | $1.600.000, 6 meses de contrato</small>
+                            </div>
+                            <span class="text-muted">→</span>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" >
+                        <div class="d-flex w-100 align-items-center d" style="height: 100px;">
+                            <img th:src="@{/assets/IMG-5.png}" alt="Imagen de ejemplo" class="me-2" width="50px">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">Desarrollador de Software</h6>
+                                <small>Bogotá D.C</small>
+                            </div>
+                            <div class="w-50">
+                                <small>Temporal | $1.600.000, 6 meses de contrato</small>
+                            </div>
+                            <span class="text-muted">→</span>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" >
+                        <div class="d-flex w-100 align-items-center" style="height: 100px;">
+                            <img th:src="@{/assets/IMG-5.png}" alt="Imagen de ejemplo" class="me-2" width="50px">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">Desarrollador de Software</h6>
+                                <small>Bogotá D.C</small>
+                            </div>
+                            <div class="w-50">
+                                <small>Temporal | $1.600.000, 6 meses de contrato</small>
+                            </div>
+                            <span class="text-muted">→</span>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" >
+                        <div class="d-flex w-100 align-items-center" style="height: 100px;">
+                            <img th:src="@{/assets/IMG-5.png}" alt="Imagen de ejemplo" class="me-2" width="50px">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">Desarrollador de Software</h6>
+                                <small>Bogotá D.C</small>
+                            </div>
+                            <div class="w-50">
+                                <small>Temporal | $1.600.000, 6 meses de contrato</small>
+                            </div>
+                            <span class="text-muted">→</span>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" >
+                        <div class="d-flex w-100 align-items-center" style="height: 100px;">
+                            <img th:src="@{/assets/IMG-5.png}" alt="Imagen de ejemplo" class="me-2" width="50px">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">Desarrollador de Software</h6>
+                                <small>Bogotá D.C</small>
+                            </div>
+                            <div class="w-50">
+                                <small>Temporal | $1.600.000, 6 meses de contrato</small>
+                            </div>
+                            <span class="text-muted">→</span>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" >
+                        <div class="d-flex w-100 align-items-center" style="height: 100px;">
+                            <img th:src="@{/assets/IMG-5.png}" alt="Imagen de ejemplo" class="me-2" width="50px">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">Desarrollador de Software</h6>
+                                <small>Bogotá D.C</small>
+                            </div>
+                            <div class="w-50">
+                                <small>Temporal | $1.600.000, 6 meses de contrato</small>
+                            </div>
+                            <span class="text-muted">→</span>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" >
+                        <div class="d-flex w-100 align-items-center" style="height: 100px;">
+                            <img th:src="@{/assets/IMG-5.png}" alt="Imagen de ejemplo" class="me-2" width="50px">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">Desarrollador de Software</h6>
+                                <small>Bogotá D.C</small>
+                            </div>
+                            <div class="w-50">
+                                <small>Temporal | $1.600.000, 6 meses de contrato</small>
+                            </div>
+                            <span class="text-muted">→</span>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" >
+                        <div class="d-flex w-100 align-items-center" style="height: 100px;">
+                            <img th:src="@{/assets/IMG-5.png}" alt="Imagen de ejemplo" class="me-2" width="50px">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">Desarrollador de Software</h6>
+                                <small>Bogotá D.C</small>
+                            </div>
+                            <div class="w-50">
+                                <small>Temporal | $1.600.000, 6 meses de contrato</small>
+                            </div>
+                            <span class="text-muted">→</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
 
+            <!-- Detalle del empleo -->
+            <div class="col-md-7 ">
+                <div class="card p-3">
+                    <div class="d-flex align-items-center">
+                        <img src="https://via.placeholder.com/50" class="me-2" alt="icono">
+                        <div class="flex-grow-1">
+                            <h5 class="mb-0">Desarrollador de Software</h5>
+                            <small>BanColombia S.A</small>
+                        </div>
+                        <button class="btn btn-success btn-sm">Aplicar</button>
+                    </div>
+                    <hr>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
+                        labore.</p>
+                    <h6>Requisitos:</h6>
+                    <ul class="list-unstyled">
+                        <li>📌 1 año de experiencia</li>
+                        <li>📌 Profesional hasta otros</li>
+                        <li>📌 Salario a convenir</li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <footer th:replace="~{layout :: footer}">
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html>f
