@@ -1,4 +1,4 @@
-package co.edu.ucentral.Bolsa_Empleo.controlador;
+package co.Bolsa_Empleo.controlador;
 
 
 import lombok.AllArgsConstructor;

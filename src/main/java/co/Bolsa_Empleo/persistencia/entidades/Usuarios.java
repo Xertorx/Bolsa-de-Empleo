@@ -1,4 +1,4 @@
-package co.edu.ucentral.Bolsa_Empleo.persistencia.entidades;
+package co.Bolsa_Empleo.persistencia.entidades;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
