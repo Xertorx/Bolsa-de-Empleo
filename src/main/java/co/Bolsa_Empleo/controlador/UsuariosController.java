@@ -1,9 +1,9 @@
-package co.edu.ucentral.Bolsa_Empleo.controlador;
+package co.Bolsa_Empleo.controlador;
 
-import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.Usuarios;
-import co.edu.ucentral.Bolsa_Empleo.persistencia.repositorios.UsuariosRepository;
-import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.TipoUsuarioService;
-import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.UsuariosService;
+import co.Bolsa_Empleo.persistencia.entidades.Usuarios;
+import co.Bolsa_Empleo.persistencia.repositorios.UsuariosRepository;
+import co.Bolsa_Empleo.persistencia.servicios.TipoUsuarioService;
+import co.Bolsa_Empleo.persistencia.servicios.UsuariosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

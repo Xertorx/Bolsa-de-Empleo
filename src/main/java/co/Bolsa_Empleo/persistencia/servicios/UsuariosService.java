@@ -1,8 +1,8 @@
-package co.edu.ucentral.Bolsa_Empleo.persistencia.servicios;
+package co.Bolsa_Empleo.persistencia.servicios;
 
-import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.Usuarios;
-import co.edu.ucentral.Bolsa_Empleo.persistencia.repositorios.TipoUsuarioRepository;
-import co.edu.ucentral.Bolsa_Empleo.persistencia.repositorios.UsuariosRepository;
+import co.Bolsa_Empleo.persistencia.entidades.Usuarios;
+import co.Bolsa_Empleo.persistencia.repositorios.TipoUsuarioRepository;
+import co.Bolsa_Empleo.persistencia.repositorios.UsuariosRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

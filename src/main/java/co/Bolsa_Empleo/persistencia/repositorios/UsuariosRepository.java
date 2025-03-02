@@ -1,6 +1,6 @@
-package co.edu.ucentral.Bolsa_Empleo.persistencia.repositorios;
+package co.Bolsa_Empleo.persistencia.repositorios;
 
-import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.Usuarios;
+import co.Bolsa_Empleo.persistencia.entidades.Usuarios;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
