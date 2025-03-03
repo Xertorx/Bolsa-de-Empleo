@@ -19,3 +19,4 @@ public class EmpresaServicio {
         return empresaRepositorio.findByCorreo(correo);
     }
 }
+
