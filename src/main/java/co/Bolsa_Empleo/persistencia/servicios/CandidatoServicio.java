@@ -19,3 +19,5 @@ public class CandidatoServicio {
         return candidatoRepositorio.findByCorreo(correo);
     }
 }
+
+
