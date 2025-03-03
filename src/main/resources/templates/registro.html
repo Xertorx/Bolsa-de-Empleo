@@ -56,6 +56,9 @@
         </div>
     </div>
 </div>
+<div th:if="${mensaje}" class="alert alert-success text-center">
+    <p th:text="${mensaje}"></p>
+</div>
 <h2>Registro de Usuario</h2>
 <br>
 <form th:action="@{/auth/registro}" method="post">

@@ -7,6 +7,10 @@ import co.Bolsa_Empleo.persistencia.servicios.EmpresaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+
+
 
 @Controller
 @RequestMapping("/auth")
@@ -31,7 +35,7 @@ public class AuthControlador {
     @PostMapping("/registro")
     public String registrarUsuario(@RequestParam String correo, @RequestParam String contrasena,
                                    @RequestParam String nombres, @RequestParam String apellidos,
-                                   @RequestParam String rol) {
+                                   @RequestParam String rol, RedirectAttributes redirectAttributes) {
         System.out.println("Correo recibido: " + correo);
         System.out.println("Contrasena recibida: " + contrasena);
         System.out.println("Nombres recibidos: " + nombres);
@@ -55,6 +59,10 @@ public class AuthControlador {
             empresa.setRol(rol);
             empresaServicio.registrarEmpresa(empresa);
         }
+
+        // Agregar mensaje de éxito
+        redirectAttributes.addFlashAttribute("mensaje", "Usuario registrado con éxito");
+
         return "redirect:/auth/login";
     }
 }

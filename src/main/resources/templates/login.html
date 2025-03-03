@@ -46,8 +46,11 @@
 </head>
 <body>
 <nav th:replace="~{layout :: navbar}">
-
 </nav>
+</div>
+<div th:if="${mensaje}" class="alert alert-success text-center">
+    <p th:text="${mensaje}"></p>
+</div>
 <div class="d-flex div-central .border border-sucess">
     <div class="hero  w-100 .border .border-warning">
         <div class="container  w-100 .border border-dark ">
