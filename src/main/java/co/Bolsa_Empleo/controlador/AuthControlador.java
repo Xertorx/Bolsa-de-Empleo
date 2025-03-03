@@ -29,11 +29,15 @@ public class AuthControlador {
     }
 
     @PostMapping("/registro")
-    public String registrarUsuario(@RequestParam String correo,
-                                   @RequestParam String contrasena,
-                                   @RequestParam String nombres,
-                                   @RequestParam String apellidos,
+    public String registrarUsuario(@RequestParam String correo, @RequestParam String contrasena,
+                                   @RequestParam String nombres, @RequestParam String apellidos,
                                    @RequestParam String rol) {
+        System.out.println("Correo recibido: " + correo);
+        System.out.println("Contrasena recibida: " + contrasena);
+        System.out.println("Nombres recibidos: " + nombres);
+        System.out.println("Apellidos recibidos: " + apellidos);
+        System.out.println("Rol recibido: " + rol);
+
         if ("Candidato".equalsIgnoreCase(rol)) {
             Candidato candidato = new Candidato();
             candidato.setCorreo(correo);
