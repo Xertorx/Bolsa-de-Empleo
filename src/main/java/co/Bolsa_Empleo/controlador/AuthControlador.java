@@ -41,6 +41,11 @@ public class AuthControlador {
         System.out.println("Apellidos recibidos: " + apellidos);
         System.out.println("Rol recibido: " + rol);
 
+        if (candidatoServicio.buscarPorCorreo(correo).isPresent() || empresaServicio.buscarPorCorreo(correo).isPresent()) {
+            redirectAttributes.addFlashAttribute("error", "Ya existe el usuario");
+            return "redirect:/auth/registro";
+        }
+
         if ("Candidato".equalsIgnoreCase(rol)) {
             Candidato candidato = new Candidato();
             candidato.setCorreo(correo);
@@ -90,6 +95,6 @@ public class AuthControlador {
     public String paginaEmpresa() {
         return "paginaempresa";
     }
+
+
 }
-
-
