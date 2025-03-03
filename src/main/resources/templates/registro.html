@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Empléate</title>
+    <title>Registro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -55,64 +54,51 @@
             <h1>Conéctate con oportunidades, <br> crece con talento.</h1>
             <p>Tu futuro te espera. Regístrate para seguir avanzando y conocer nuevas oportunidades.</p>
         </div>
-
-        <div class="form-container  w-75 .border border-warning">
-            <form th:action="@{/registro}" method="post" th:object="${usuarios}">
-                <div class="mb-3 w-75">
-                    <label class="form-label">Usuario</label>
-                    <input type="email" class="form-control " th:value="${email}"
-                           name="usuario" required>
-                </div>
-                <div class="mb-3 w-75">
-                    <label class="form-label">Contraseña</label>
-                    <input type="password" class="form-control " name="contrasena"  th:value="${password}" required>
-                </div>
-
-
-                <div class="mb-3 w-75">
-                    <label class="form-label">Tipo de Usuario</label>
-                   <select class="form-select" th:field="*{tipo_usuario}" required>
-                        <option value="">Seleccione un tipo de usuario</option>
-                        <option th:each="tipo : ${tiposUsuario}"
-                                th:value="${tipo.codigo}"
-                                th:text="${tipo.nombre}">
-                        </option>
-                    </select>
-                </div>
-
-                <div class="d-flex gap-5 justify-content-start pt-5">
-                    <button type="submit" class="btn sb  w-25">Registrarse</button>
-                    <button type="button" class="btn sd w-25 ">Cancelar</button>
-                </div>
-                <!-- Mensajes de éxito o error -->
-                <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
-                    <span th:text="${successMessage}"></span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-
-                <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <span th:text="${errorMessage}"></span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="img .border border-danger container-fluid w-100">
-        <img th:src="@{/assets/IMG-1.png}" alt="Imagen de ejemplo" width="auto">
-
     </div>
 </div>
-<footer th:replace="~{layout :: footer}">
+<h2>Registro de Usuario</h2>
+<br>
+<form th:action="@{/auth/registro}" method="post">
+    <label for="correo">Correo:</label>
+    <input type="email" id="correo" name="correo" required>
+    <br>
+    <br>
+    <label for="contraseña">Contraseña:</label>
+    <input type="password" id="contraseña" name="contraseña" required>
+    <br>
+    <br>
+    <label for="nombres">Nombres:</label>
+    <input type="text" id="nombres" name="nombres" required>
+    <br>
+    <br>
+    <label for="apellidos">Apellidos:</label>
+    <input type="text" id="apellidos" name="apellidos" required>
+    <br>
+    <br>
+    <label for="rol">Tipo de Usuario:</label>
+    <select id="rol" name="rol" required>
+        <option value="Candidato">Candidato</option>
+        <option value="Empresa">Empresa</option>
+    </select>
+    <br>
+    <br>
+    <button type="submit">Registrarse</button>
+    <br>
+    <a th:href="@{/}">Volver al Inicio</a>
+</form>
+
+<footer class="footer" th:fragment="footer">
+    <style>
+        .footer {
+            background-color: #007f3d;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: auto;
+        }
+    </style>
+    <p>&copy; 2024 Empléate. Conectando talento con oportunidades.</p>
 </footer>
-<script>
-    setTimeout(() => {
-        let alerts = document.querySelectorAll('.alert');
-        alerts.forEach(alert => {
-            let bsAlert = new bootstrap.Alert(alert);
-            bsAlert.close();
-        });
-    }, 3000);
-</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

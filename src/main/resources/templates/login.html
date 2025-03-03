@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Empléate</title>
+    <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -46,40 +45,39 @@
     </style>
 </head>
 <body>
+<nav th:replace="~{layout :: navbar}">
 
-<nav th:replace="~{fragments/navbar :: navbar}"></nav>
-
-<div class="container d-flex align-items-center justify-content-center" style="height: 80vh;">
-    <div class="login-container">
-        <h2 class="text-center text-success">Empléate</h2>
-        <p class="text-center">Conéctate con oportunidades, crece con talento.</p>
-
-        <form th:action="@{/login}" method="post">
-            <div class="mb-3">
-                <label for="usuario" class="form-label">Usuario</label>
-                <input type="text" id="usuario" name="usuario" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="contrasena" class="form-label">Contraseña</label>
-                <input type="password" id="contrasena" name="contrasena" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="tipoUsuario" class="form-label">Tipo de usuario</label>
-                <select id="tipoUsuario" name="tipoUsuario" class="form-control" required>
-                    <option value="CANDIDATO">Candidato</option>
-                    <option value="EMPRESA">Empresa</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-success w-100">Ingresar</button>
-        </form>
-        <div class="text-center mt-3">
-            <a href="#" class="text-secondary">¿Olvidaste tu contraseña?</a>
-        </div>
-        <div class="text-center mt-3">
-            <a href="/registro" class="btn btn-outline-success w-100">Registrarse</a>
+</nav>
+<div class="d-flex div-central .border border-sucess">
+    <div class="hero  w-100 .border .border-warning">
+        <div class="container  w-100 .border border-dark ">
+            <h1>Iniciar Sesión </h1>
+            <p>Tu futuro te espera. Inicia seccion para seguir avanzando y conocer nuevas oportunidades.</p>
         </div>
     </div>
 </div>
+<br>
+<form action="#" method="post">
+    <label for="correo">Correo:</label>
+    <input type="email" id="correo" name="correo" required>
+
+    <label for="contraseña">Contraseña:</label>
+    <input type="password" id="contraseña" name="contraseña" required>
+
+    <label for="rol">Tipo de Usuario:</label>
+    <select id="rol" name="rol" required>
+        <option value="Candidato">Candidato</option>
+        <option value="Empresa">Empresa</option>
+
+    </select>
+    <br>
+    <br>
+    <br>
+    <button type="submit">Ingresar</button>
+</form>
+<br>
+<a th:href="@{/}">Volver al Inicio</a>
+<br>
 
 <footer class="footer" th:fragment="footer">
     <style>
@@ -93,6 +91,9 @@
     </style>
     <p>&copy; 2024 Empléate. Conectando talento con oportunidades.</p>
 </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
