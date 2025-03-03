@@ -11,6 +11,10 @@
             display: flex;
             flex-direction: column;
         }
+        .formulario {
+        margin-left: 2cm; /* Aplica el margen izquierdo de 2 cm */
+        text-align: left; /* Asegura que el texto esté alineado a la izquierda */
+        }
 
         .hero {
             margin-bottom : 20px;
@@ -61,37 +65,37 @@
 </div>
 
 <br>
-<form action="#" method="post">
-    <label for="correo">Correo:</label>
-    <input type="email" id="correo" name="correo" required>
+<div class="formulario">
+    <form action="#" method="post">
+        <label for="correo">Correo:</label>
+        <input type="email" id="correo" name="correo" required>
 
-    <label for="contrasena">Contraseña:</label>
-    <input type="password" id="contrasena" name="contrasena" required>
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" id="contrasena" name="contrasena" required>
 
-    <label for="rol">Tipo de Usuario:</label>
-    <select id="rol" name="rol" required>
-        <option value="Candidato">Candidato</option>
-        <option value="Empresa">Empresa</option>
+        <label for="rol">Tipo de Usuario:</label>
+        <select id="rol" name="rol" required>
+            <option value="Candidato">Candidato</option>
+            <option value="Empresa">Empresa</option>
+        </select>
+</div>
 
-    </select>
-    <br>
-    <br>
-    <div class="d-flex gap-5 justify-content-start pt-5">
+<br>
+<br>
+<div class="d-flex gap-5 justify-content-start pt-5">
         <button type="submit" class="btn sb  w-25">Ingresar</button>
         <button type="button" class="btn sd w-25 " onclick="window.location.href='/auth/registro'">Registrarse</button>
         <button type="button" class="btn sd w-25 " onclick="window.location.href='/'">Cancelar</button>
-    </div>
+</div>
 
-    <br>
-    <br>
+<br>
+<br>
 
 </form>
 <div th:if="${error}" class="alert alert-danger">
     <p th:text="${error}"></p>
 </div>
 <br>
-
-
 
 <footer class="footer" th:fragment="footer">
     <style>
