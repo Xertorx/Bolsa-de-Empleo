@@ -59,6 +59,7 @@
         </div>
     </div>
 </div>
+
 <br>
 <form action="#" method="post">
     <label for="correo">Correo:</label>
@@ -77,15 +78,23 @@
     <br>
     <br>
     <button type="submit">Ingresar</button>
-    <button class="login-btn" onclick="window.location.href='/auth/registro'">registrarse</button>
-</form>
-<br>
-<header class="header">
 
-    <div class="logo"></div>
-<button class="login-btn" onclick="window.location.href='/'">Volver al Inicio</button>
-</header>
+    <button class="login-btn" onclick="window.location.href='/auth/registro'">registrarse</button>
+    <br>
+    <br>
+
+    <header class="header">
+
+        <div class="logo"></div>
+        <button class="login-btn" onclick="window.location.href='/'">Volver al Inicio</button>
+    </header>
+</form>
+<div th:if="${error}" class="alert alert-danger">
+    <p th:text="${error}"></p>
+</div>
 <br>
+
+
 
 <footer class="footer" th:fragment="footer">
     <style>

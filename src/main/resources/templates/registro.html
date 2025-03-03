@@ -94,7 +94,9 @@
     </header>
     <br>
 </form>
-
+<div th:if="${error}" class="alert alert-danger">
+    <p th:text="${error}"></p>
+</div>
 <footer class="footer" th:fragment="footer">
     <style>
         .footer {
