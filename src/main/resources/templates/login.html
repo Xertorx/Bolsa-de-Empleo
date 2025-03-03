@@ -76,18 +76,15 @@
     </select>
     <br>
     <br>
-    <br>
-    <button type="submit">Ingresar</button>
+    <div class="d-flex gap-5 justify-content-start pt-5">
+        <button type="submit" class="btn sb  w-25">Ingresar</button>
+        <button type="button" class="btn sd w-25 " onclick="window.location.href='/auth/registro'">Registrarse</button>
+        <button type="button" class="btn sd w-25 " onclick="window.location.href='/'">Cancelar</button>
+    </div>
 
-    <button class="login-btn" onclick="window.location.href='/auth/registro'">registrarse</button>
     <br>
     <br>
 
-    <header class="header">
-
-        <div class="logo"></div>
-        <button class="login-btn" onclick="window.location.href='/'">Volver al Inicio</button>
-    </header>
 </form>
 <div th:if="${error}" class="alert alert-danger">
     <p th:text="${error}"></p>
