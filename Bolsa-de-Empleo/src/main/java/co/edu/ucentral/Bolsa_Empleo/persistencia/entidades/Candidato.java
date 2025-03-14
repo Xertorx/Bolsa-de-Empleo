@@ -2,6 +2,8 @@ package co.edu.ucentral.Bolsa_Empleo.persistencia.entidades;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "candidato")
 public class Candidato {
@@ -23,6 +25,9 @@ public class Candidato {
 
     @Column(nullable = false)
     private String rol;
+
+    @OneToMany(mappedBy = "candidato", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ExperienciaLaboral> experienciaLaboral;  // Relación con ExperienciaLaboral
 
     // Getters y Setters
     public Long getId() { return id; }
