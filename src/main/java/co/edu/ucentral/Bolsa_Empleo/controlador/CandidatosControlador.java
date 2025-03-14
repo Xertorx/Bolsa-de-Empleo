@@ -1,19 +1,22 @@
-package co.Bolsa_Empleo.controlador;
+package co.edu.ucentral.Bolsa_Empleo.controlador;
 
-import co.Bolsa_Empleo.persistencia.entidades.Candidato;
-import co.Bolsa_Empleo.persistencia.entidades.Empresa;
-import co.Bolsa_Empleo.persistencia.servicios.CandidatoServicio;
-import co.Bolsa_Empleo.persistencia.servicios.EmpresaServicio;
+import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.Candidato;
+import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.Empresa;
+import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.CandidatoServicio;
+import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.EmpresaServicio;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/auth")
-public class AuthControlador {
+public class CandidatosControlador {
 
     @Autowired
     private CandidatoServicio candidatoServicio;
@@ -70,21 +73,25 @@ public class AuthControlador {
 
     @PostMapping("/login")
     public String iniciarSesion(@RequestParam String correo, @RequestParam String contrasena,
-                                @RequestParam String rol, RedirectAttributes redirectAttributes) {
+                                @RequestParam String rol, HttpSession session,
+                                RedirectAttributes redirectAttributes) {
         if ("Candidato".equalsIgnoreCase(rol)) {
             Optional<Candidato> candidato = candidatoServicio.buscarPorCorreo(correo);
             if (candidato.isPresent() && candidato.get().getContrasena().equals(contrasena)) {
+                session.setAttribute("id", candidato.get().getId()); // Guardar el NIT en la sesión
                 return "redirect:/auth/paginacandidato";
             }
         } else if ("Empresa".equalsIgnoreCase(rol)) {
             Optional<Empresa> empresa = empresaServicio.buscarPorCorreo(correo);
             if (empresa.isPresent() && empresa.get().getContrasena().equals(contrasena)) {
+                session.setAttribute("id", empresa.get().getId()); // Guardar el NIT en la sesión
                 return "redirect:/auth/paginaempresa";
             }
         }
         redirectAttributes.addFlashAttribute("error", "Credenciales incorrectas");
         return "redirect:/auth/login";
     }
+
 
     @GetMapping("/paginacandidato")
     public String paginaCandidato() {

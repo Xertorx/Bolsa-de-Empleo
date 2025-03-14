@@ -76,7 +76,7 @@
 
     <div class="logo"></div>
 
-    <button class="login-btn" onclick="window.location.href='/auth/login'">Iniciar Sesión</button>
+    <button class="login-btn" onclick="window.location.href='/login'">Iniciar Sesión</button>
 
 </header>
 
@@ -240,7 +240,9 @@
                             <h5 class="mb-0">Desarrollador de Software</h5>
                             <small>BanColombia S.A</small>
                         </div>
+                        <a th:href="@{/postulacion/curriculum}">
                         <button class="btn btn-success btn-sm">Aplicar</button>
+                        </a>
                     </div>
                     <hr>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut

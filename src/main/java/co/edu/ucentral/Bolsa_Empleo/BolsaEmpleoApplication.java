@@ -1,4 +1,4 @@
-package co.Bolsa_Empleo;
+package co.edu.ucentral.Bolsa_Empleo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
