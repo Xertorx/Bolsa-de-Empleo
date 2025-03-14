@@ -34,6 +34,6 @@ public class InformacionAcademica {
     private LocalDate fechaFinalizacion;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_codigo", referencedColumnName = "codigo", nullable = false)
-    private Usuarios usuario;  // Relación con Usuarios
+    @JoinColumn(name = "candidato_codigo", referencedColumnName = "id", nullable = false)
+    private Candidato candidato;  // Relación con Usuarios
 }
