@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
@@ -29,15 +29,14 @@ public class Usuarios {
     private String direccion;
 
     @Column(name = "tipo_identificacion")
-    private String tipo_identificacion;
+    private String tipoIdentificacion;
 
     @Column(name = "numero_identificacion")
-    private Integer numero_identificacion;
+    private Integer numeroIdentificacion;
 
     @Column(name = "telefono")
     private String telefono;
 
-    @Getter
     @Column(name = "email")
     private String email;
 
@@ -46,8 +45,8 @@ public class Usuarios {
 
     @ManyToOne
     @JoinColumn(name = "tipo_usuario", referencedColumnName = "codigo", nullable = false)
-    private TipoUsuario tipo_usuario;
+    private TipoUsuario tipoUsuario;
 
-
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ExperienciaLaboral> experienciaLaboral;  // Relación con ExperienciaLaboral
 }
-

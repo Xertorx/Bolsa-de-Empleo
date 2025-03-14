@@ -4,6 +4,7 @@ import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.Usuarios;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.repositorios.UsuariosRepository;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.TipoUsuarioService;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.UsuariosService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+@AllArgsConstructor
 @Controller
 public class UsuariosController {
 
@@ -23,10 +25,6 @@ public class UsuariosController {
 
     @Autowired
     private final TipoUsuarioService tipoUsuarioService;
-
-    public UsuariosController(TipoUsuarioService tipoUsuarioService) {
-        this.tipoUsuarioService = tipoUsuarioService;
-    }
 
     @GetMapping({"/registrar"})
     public String registerPage(Model model) {
@@ -52,7 +50,4 @@ public class UsuariosController {
 
         return "redirect:/registro";
     }
-
-
-
 }
