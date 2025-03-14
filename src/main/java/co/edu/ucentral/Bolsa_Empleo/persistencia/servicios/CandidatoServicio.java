@@ -1,7 +1,7 @@
-package co.Bolsa_Empleo.persistencia.servicios;
+package co.edu.ucentral.Bolsa_Empleo.persistencia.servicios;
 
-import co.Bolsa_Empleo.persistencia.entidades.Candidato;
-import co.Bolsa_Empleo.persistencia.repositorios.CandidatoRepositorio;
+import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.Candidato;
+import co.edu.ucentral.Bolsa_Empleo.persistencia.repositorios.CandidatoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
