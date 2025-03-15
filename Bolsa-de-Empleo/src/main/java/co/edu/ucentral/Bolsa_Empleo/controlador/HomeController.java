@@ -1,8 +1,10 @@
 package co.edu.ucentral.Bolsa_Empleo.controlador;
 
 
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @AllArgsConstructor
@@ -22,7 +24,9 @@ public class HomeController {
         return "Candidatos/datosPersonales"; // nombre del archivo login.html
     }
     @GetMapping({"/postulacion/curriculum"})
-    public String prueba4() {
+    public String formulario(HttpSession session, Model model) {
+        model.addAttribute("candidato", session.getAttribute("candidato"));
+        System.out.println(session.getAttribute("candidato").getClass());
         return "Candidatos/curriculum"; // nombre del archivo login.html
     }
 

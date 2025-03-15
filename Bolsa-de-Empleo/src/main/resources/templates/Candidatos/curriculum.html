@@ -42,7 +42,6 @@
     </style>
 </head>
 <body>
-
 <nav th:replace="~{layout :: navbar}">
 
 </nav>
@@ -76,6 +75,8 @@
                     <label class="form-label">Fecha de Finalización</label>
                     <input type="date" class="form-control" id="fechaFinalizacion" required>
                 </div>
+                <!-- Div oculto con el valor del session attribute -->
+                <input type="hidden" id="id_candidato" th:value="${session.candidato.id}">
             </div>
             <button type="button" class="btn sb mt-3" onclick="guardarExperiencia()">Guardar</button>
         </form>
@@ -132,6 +133,7 @@
                     <label class="form-label">Fecha de Finalización</label>
                     <input type="date" class="form-control" id="FechaFinalizacionI" required>
                 </div>
+                <input type="hidden" id="id_candidato2" th:value="${session.candidato.id}">
             </div>
             <button type="button" class="btn sb mt-3" onclick="guardarInformacionAcademica()">Guardar</button>
         </form>
@@ -161,8 +163,8 @@
         <button class="btn sb mt-3 w-50q" onclick="mostrarFormulario2()">Agregar otra Informacion Academica</button>
     </div>
     <!-- Botones para continuar o cancelar el proceso de curriculum -->
-    <div class="container-fluid text-center border border-warning pt-5 pb-5 ">
-        <button type="button" class="btn sb mt-3" >Continuar</button>
+    <div class="container-fluid text-center .border border-warning pt-5 pb-5 ">
+        <button class="btn sb btn-danger mt-3" onclick="EnviarExpApi(); EnviarInfoApi();">Continuar</button>
         <button type="button" class="btn sb btn-danger mt-3" onclick="cancelar()">Cancelar</button>
     </div>
 </div>

@@ -13,10 +13,12 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class ExperienciaLaboral {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequencia_experiencia")
+    @SequenceGenerator(name = "sequencia_experiencia", sequenceName = "sequencia_experiencia", allocationSize = 1)
     @Column(name = "id")
     private Long id;
 
@@ -30,12 +32,12 @@ public class ExperienciaLaboral {
     private String responsabilidades;
 
     @Column(name = "fecha_inicio")
-    private LocalDate fechaInicio;
+    private String fechaInicio;
 
     @Column(name = "fecha_finalizacion")
-    private LocalDate fechaFinalizacion;
+    private String fechaFinalizacion;
 
     @ManyToOne
     @JoinColumn(name = "candidato_codigo", referencedColumnName = "id", nullable = false)
-    private Candidato candidato;  // Relación con Usuarios
+    private Candidato candidato;  // Relación con Candidato
 }

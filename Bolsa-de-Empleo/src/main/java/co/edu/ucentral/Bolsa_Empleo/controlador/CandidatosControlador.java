@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.CandidatoServicio;
 import java.util.Optional;
@@ -45,7 +47,7 @@ public class CandidatosControlador {
 
         if (candidatoServicio.buscarPorCorreo(correo).isPresent() || empresaServicio.buscarPorCorreo(correo).isPresent()) {
             redirectAttributes.addFlashAttribute("error", "Ya existe el usuario");
-            return "redirect:/auth/registro";
+            return "redirect:/registro";
         }
 
         if ("Candidato".equalsIgnoreCase(rol)) {
@@ -67,7 +69,7 @@ public class CandidatosControlador {
         }
 
         redirectAttributes.addFlashAttribute("mensaje", "Usuario registrado con éxito");
-        return "redirect:/auth/login";
+        return "redirect:/login";
     }
 
     @PostMapping("/login")
@@ -77,14 +79,15 @@ public class CandidatosControlador {
         if ("Candidato".equalsIgnoreCase(rol)) {
             Optional<Candidato> candidato = candidatoServicio.buscarPorCorreo(correo);
             if (candidato.isPresent() && candidato.get().getContrasena().equals(contrasena)) {
-                session.setAttribute("id", candidato.get().getId()); // Guardar el NIT en la sesión
-                return "redirect:/auth/paginacandidato";
+                session.setAttribute("candidato", candidato.get()); // Guardar el candidato
+                System.out.println(candidato.get().getNombres());
+                return "redirect:/";
             }
         } else if ("Empresa".equalsIgnoreCase(rol)) {
             Optional<Empresa> empresa = empresaServicio.buscarPorCorreo(correo);
             if (empresa.isPresent() && empresa.get().getContrasena().equals(contrasena)) {
-                session.setAttribute("id", empresa.get().getId()); // Guardar el NIT en la sesión
-                return "redirect:/auth/paginaempresa";
+                session.setAttribute("empresa", empresa); // Guardar la empresa
+                return "redirect:/";
             }
         }
         redirectAttributes.addFlashAttribute("error", "Credenciales incorrectas");
@@ -102,5 +105,11 @@ public class CandidatosControlador {
         return "paginaempresa";
     }
 
+    @RequestMapping("/logout")
+    public String logout(HttpSession session, SessionStatus status) {
+        session.invalidate();
+        status.setComplete();
+        return "redirect:/";
+    }
 
 }
