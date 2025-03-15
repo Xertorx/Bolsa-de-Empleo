@@ -1,12 +1,15 @@
 // Js para la experiencia
 
+alert("")
+
 function guardarExperiencia() {
         let cargo = document.getElementById("cargo").value;
         let empresa = document.getElementById("empresa").value;
         let responsabilidades = document.getElementById("responsabilidades").value;
         let fechaInicio = document.getElementById("fechaInicio").value;
         let fechaFinalizacion = document.getElementById("fechaFinalizacion").value;
-
+        let id_candidato = document.getElementById("id_candidato").value;
+        console.log(JSON.stringify(id_candidato, null, 2));
         // Validar que los campos no estén vacíos
         if (!cargo || !empresa || !responsabilidades || !fechaInicio || !fechaFinalizacion) {
             alert("Por favor, completa todos los campos.");
@@ -23,9 +26,10 @@ function guardarExperiencia() {
             <td>${responsabilidades}</td>
             <td>${fechaInicio}</td>
             <td>${fechaFinalizacion}</td>
+            <td class="hidden-td">${id_candidato}</td>
             <td><button class="btn btn-danger btn-sm" onclick="eliminarFila(this)">Eliminar</button></td>
         `;
-
+        nuevaFila.querySelector(".hidden-td").style.display = "none";
         // Mostrar la tabla si tiene datos
         document.getElementById("tableContainer").style.display = "block";
 
@@ -71,8 +75,8 @@ function guardarInformacionAcademica() {
         let especialidad = document.getElementById("Especialidad").value;
         let institucion = document.getElementById("Institucion").value;
         let fechaFinalizacionI = document.getElementById("FechaFinalizacionI").value;
-
-        // Validar que los campos no estén vacíos
+        let id_candidato2 = document.getElementById("id_candidato2").value;
+         console.log(JSON.stringify(id_candidato2, null, 2));
         if (!titulo || !especialidad || !institucion || !fechaFinalizacionI) {
             alert("Por favor, completa todos los campos.");
             return;
@@ -87,9 +91,10 @@ function guardarInformacionAcademica() {
             <td>${especialidad}</td>
             <td>${institucion}</td>
             <td>${fechaFinalizacionI}</td>
+            <td class="hidden-td">${id_candidato2}</td>
             <td><button class="btn btn-danger btn-sm" onclick="eliminarFila(this)">Eliminar</button></td>
         `;
-
+        nuevaFila2.querySelector(".hidden-td").style.display = "none";
         alert("Logro hacer todo antes de mostrar la tabla")
         // Mostrar la tabla si tiene datos
         document.getElementById("tableContainer2").style.display = "block";
@@ -145,12 +150,13 @@ async function EnviarExpApi() {
             empresa: celdas[1].innerText,
             responsabilidades: celdas[2].innerText,
             fechaInicio: celdas[3].innerText,
-            fechaFinalizacion: celdas[4].innerText
+            fechaFinalizacion: celdas[4].innerText,
+            candidato: { id: celdas[5].innerText }
         };
         experiencias.push(experiencia);
     }
-
-    let response = await fetch("http://localhost:8886/api/experiencia", {
+    console.log(JSON.stringify(experiencias, null, 2));
+    let response = await fetch("http://localhost:8862/api/experiencia/guardar", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -166,6 +172,7 @@ async function EnviarExpApi() {
 }
 
 async function EnviarInfoApi() {
+    alert("Ingreso a esta ");
     let tabla = document.getElementById("tablaAcademica");
     let informacionAcademica = [];
 
@@ -175,12 +182,13 @@ async function EnviarInfoApi() {
             titulo: celdas[0].innerText,
             especialidad: celdas[1].innerText,
             institucion: celdas[2].innerText,
-            fechaFinalizacion: celdas[3].innerText
+            fechaFinalizacion: celdas[3].innerText,
+            candidato: { id: celdas[4].innerText }
         };
         informacionAcademica.push(info);
     }
-
-    let response = await fetch("http://localhost:8080/api/academica", {
+    console.log(JSON.stringify(informacionAcademica, null, 2));
+    let response = await fetch("http://localhost:8862/api/academica/guardar", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

@@ -17,7 +17,8 @@ import java.time.LocalDate;
 public class InformacionAcademica {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequencia_academica")
+    @SequenceGenerator(name = "sequencia_academica", sequenceName = "sequencia_academica", allocationSize = 1)
     @Column(name = "id")
     private Long id;
 
@@ -31,7 +32,7 @@ public class InformacionAcademica {
     private String responsabilidades;
 
     @Column(name = "fecha_finalizacion")
-    private LocalDate fechaFinalizacion;
+    private String fechaFinalizacion;
 
     @ManyToOne
     @JoinColumn(name = "candidato_codigo", referencedColumnName = "id", nullable = false)

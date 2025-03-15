@@ -21,10 +21,14 @@ public class InformacionAcademicaController {
 
     @Autowired
     private InformacionAcademicaRepository repository;
+    @PostMapping("/guardar")
+    public ResponseEntity<?> guardarInformacionAcademica(@RequestBody List<InformacionAcademica> informacion) {
+        informacion.forEach(info -> {
 
-    @PostMapping
-    public List<InformacionAcademica> guardarInformacionAcademica(@RequestBody List<InformacionAcademica> infoAcademica) {
-        return repository.saveAll(infoAcademica);
+            repository.save(info);
+        });
+
+        return ResponseEntity.ok("Información académica guardada con éxito.");
     }
 
     @GetMapping
