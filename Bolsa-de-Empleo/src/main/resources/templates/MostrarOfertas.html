@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Ofertas de Empleo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<nav th:replace="~{layout :: navbar}"></nav>
+<div class="container mt-5">
+  <h2>Ofertas de Empleo</h2>
+  <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+  <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>Título</th>
+      <th>Categoría</th>
+      <th>N° Vacantes</th>
+      <th>Ubicación</th>
+      <th>Salario</th>
+      <th>Fecha Publicación</th>
+      <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="oferta : ${ofertas}">
+      <td th:text="${oferta.titulo}"></td>
+      <td th:text="${oferta.categoria}"></td>
+      <td th:text="${oferta.numeroVacantes}"></td>
+      <td>
+        <span th:text="${oferta.pais}"></span>,
+        <span th:text="${oferta.ciudad}"></span>,
+        <span th:text="${oferta.direccionOferta}"></span>
+      </td>
+      <td th:text="${oferta.salario}"></td>
+      <td th:text="${oferta.fechaPublicacion}"></td>
+      <td>
+        <a th:href="@{'/ofertas/editar/' + ${oferta.id}}" class="btn btn-warning btn-sm">Editar</a>
+        <a th:href="@{'/ofertas/eliminar/' + ${oferta.id}}" class="btn btn-danger btn-sm"
+           onclick="return confirm('¿Está seguro de eliminar esta oferta?');">Eliminar</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="mt-4">
+  <a href="/paginaempresa" class="btn btn-secondary">Volver</a>
+</div>
+
+<footer th:replace="~{layout :: footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
