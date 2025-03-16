@@ -25,9 +25,9 @@
         </a>
         <div class="collapse navbar-collapse justify-content-end fs-5 me-5 pe-4 .border border-danger ">
             <ul class="navbar-nav d-flex gap-5 pe-5 .border border-secondary pe-5">
-                <li class="nav-item"><a class="nav-link .border border-success" href="#">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link .border border-success" href="#">Quiénes Somos</a></li>
-                <li class="nav-item"><a class="nav-link .border border-success" href="#">Empresas Aliadas</a></li>
+                <li class="nav-item"><a class="nav-link .border border-success" th:href="@{/}">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link .border border-success" th:href="@{/}">Quiénes Somos</a></li>
+                <li class="nav-item"><a class="nav-link .border border-success" th:href="@{/}">Empresas Aliadas</a></li>
                 <li class="nav-item"><a class="nav-link .border border-success" th:if="${session.candidato == null}" th:href="@{/login}">Iniciar Sesión</a></li>
                 <li class="nav-item"><a class="nav-link .border border-success" th:if="${session.candidato != null}" th:href="@{/logout}">Cerrar Session</a></li>
             </ul>

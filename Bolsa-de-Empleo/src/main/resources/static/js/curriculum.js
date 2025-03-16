@@ -1,7 +1,5 @@
 // Js para la experiencia
 
-alert("")
-
 function guardarExperiencia() {
         let cargo = document.getElementById("cargo").value;
         let empresa = document.getElementById("empresa").value;
@@ -51,12 +49,11 @@ function mostrarFormulario() {
     // Ocultar la pregunta de agregar otra experiencia
     document.getElementById("preguntaOtraExperiencia").style.display = "none";
 }
+
 function eliminarFila(boton) {
-     // Eliminar la fila correspondiente
     let fila = boton.parentNode.parentNode;
     fila.parentNode.removeChild(fila);
 
-    // Verificar si quedan filas en la tabla
     let tabla = document.getElementById("tablaExperiencia");
     if (tabla.rows.length === 0) {
         document.getElementById("tableContainer").style.display = "none";
@@ -70,7 +67,8 @@ function eliminarFila(boton) {
 // Js Para la informacion Academica
 
 function guardarInformacionAcademica() {
-    alert("Ingresa a guardar informacion academica")
+
+
         let titulo = document.getElementById("Titulo").value;
         let especialidad = document.getElementById("Especialidad").value;
         let institucion = document.getElementById("Institucion").value;
@@ -92,10 +90,10 @@ function guardarInformacionAcademica() {
             <td>${institucion}</td>
             <td>${fechaFinalizacionI}</td>
             <td class="hidden-td">${id_candidato2}</td>
-            <td><button class="btn btn-danger btn-sm" onclick="eliminarFila(this)">Eliminar</button></td>
+            <td><button class="btn btn-danger btn-sm" onclick="eliminarFilaAcademica(this)">Eliminar</button></td>
         `;
         nuevaFila2.querySelector(".hidden-td").style.display = "none";
-        alert("Logro hacer todo antes de mostrar la tabla")
+
         // Mostrar la tabla si tiene datos
         document.getElementById("tableContainer2").style.display = "block";
 
@@ -117,18 +115,15 @@ function mostrarFormulario2() {
      document.getElementById("preguntaOtraAcademica").style.display = "none";
 }
 
-function eliminarFila(boton) {
-     // Eliminar la fila correspondiente
-     let fila = boton.parentNode.parentNode;
-     fila.parentNode.removeChild(fila);
+function eliminarFilaAcademica(boton) {
+    let fila = boton.parentNode.parentNode;
+    fila.parentNode.removeChild(fila);
 
-     // Verificar si quedan filas en la tabla
-     let tabla = document.getElementById("tableContainer2");
-     if (tabla.rows.length === 0) {
-         document.getElementById("tableContainer2").style.display = "none";
-     }
+    let tabla = document.getElementById("tablaAcademica");
+    if (tabla.rows.length === 0) {
+        document.getElementById("tableContainer2").style.display = "none";
+    }
 }
-
 
 
 
@@ -138,6 +133,26 @@ function cancelarProceso() {
         document.getElementById("tablaExperiencia").innerHTML = "";
         document.getElementById("tableContainer").style.display = "none";
 }
+
+async function enviarDatos() {
+    alert("Ingresa a la funcion");
+    try {
+        let [expResponse, infoResponse] = await Promise.all([
+            EnviarExpApi(),
+            EnviarInfoApi()
+        ]);
+
+        if (expResponse && infoResponse) {
+            let modal = new bootstrap.Modal(document.getElementById("successModal"));
+            modal.show();
+        }
+    } catch (error) {
+        console.error("Error al enviar los datos:", error);
+        alert("Ocurrió un error al enviar los datos.");
+    }
+}
+
+
 
 async function EnviarExpApi() {
     let tabla = document.getElementById("tablaExperiencia");
@@ -155,24 +170,17 @@ async function EnviarExpApi() {
         };
         experiencias.push(experiencia);
     }
-    console.log(JSON.stringify(experiencias, null, 2));
+
     let response = await fetch("http://localhost:8862/api/experiencia/guardar", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(experiencias)
     });
 
-    if (response.ok) {
-        alert("Experiencia laboral enviada correctamente.");
-    } else {
-        alert("Error al enviar experiencia laboral.");
-    }
+    return response.ok;
 }
 
 async function EnviarInfoApi() {
-    alert("Ingreso a esta ");
     let tabla = document.getElementById("tablaAcademica");
     let informacionAcademica = [];
 
@@ -187,18 +195,12 @@ async function EnviarInfoApi() {
         };
         informacionAcademica.push(info);
     }
-    console.log(JSON.stringify(informacionAcademica, null, 2));
+
     let response = await fetch("http://localhost:8862/api/academica/guardar", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(informacionAcademica)
     });
 
-    if (response.ok) {
-        alert("Información académica enviada correctamente.");
-    } else {
-        alert("Error al enviar información académica.");
-    }
+    return response.ok;
 }

@@ -25,7 +25,7 @@ public class HomeController {
     }
     @GetMapping({"/postulacion/curriculum"})
     public String formulario(HttpSession session, Model model) {
-        model.addAttribute("candidato", session.getAttribute("candidato"));
+        model.addAttribute("", session.getAttribute("candidato"));
         System.out.println(session.getAttribute("candidato").getClass());
         return "Candidatos/curriculum"; // nombre del archivo login.html
     }
