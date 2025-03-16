@@ -3,7 +3,9 @@ package co.edu.ucentral.Bolsa_Empleo.controlador;
 
 import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.Candidato;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.Empresa;
+import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.RegistroDTO;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.repositorios.CandidatoRepositorio;
+import co.edu.ucentral.Bolsa_Empleo.persistencia.repositorios.EmpresaRepositorio;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.EmpresaServicio;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -27,6 +29,8 @@ public class CandidatosControlador {
 
     @Autowired
     private CandidatoRepositorio candidatoRepositorio;
+    @Autowired
+    private EmpresaRepositorio empresaRepositorio;
     @Autowired
     private EmpresaServicio empresaServicio;
 
@@ -106,33 +110,55 @@ public class CandidatosControlador {
     @GetMapping("/registro/datosPersonales")
     public String paginaDatosPersonales(Model model, HttpSession session) {
         Candidato candidato = (Candidato) session.getAttribute("candidato");
-        System.out.println(candidato.toString());
-        model.addAttribute("candidato", candidato);
+        Empresa empresa = (Empresa ) session.getAttribute("empresa");
+        if (candidato != null){
+            model.addAttribute("objeto", candidato);
+        }else if (empresa !=null){
+            model.addAttribute("objeto", empresa);
+        }
+
 
         return "Candidatos/datosPersonales";
     }
     @PostMapping("/registro/datosPersonales/registrar")
-    public String registrarDatos(@Valid @ModelAttribute("candidato") Candidato candidato,
+    public String registrarDatos(@Valid @ModelAttribute("objeto") RegistroDTO registroDTO,
                                  BindingResult result, HttpSession session) throws IOException {
         if (result.hasErrors()) {
-            return "Candidatos/datosPersonales";
+            return "Candidatos/datosPersonales"; // Retorna a la misma vista con errores
         }
 
+        // Obtener los objetos de la sesión
         Candidato candidatoExistente = (Candidato) session.getAttribute("candidato");
+        Empresa empresaExistente = (Empresa) session.getAttribute("empresa");
 
-        candidato.setId(candidatoExistente.getId());
-        candidato.setCorreo(candidatoExistente.getCorreo());
-        candidato.setContrasena(candidatoExistente.getContrasena());
-        candidato.setRol(candidatoExistente.getRol());
+        if (candidatoExistente != null) {
+            // Actualizar datos del candidato
+            candidatoExistente.setNombres(registroDTO.getNombres());
+            candidatoExistente.setApellidos(registroDTO.getApellidos());
+            candidatoExistente.setTipo_identificacion(registroDTO.getTipo_identificacion());
+            candidatoExistente.setNumero_identificacion(registroDTO.getNumero_identificacion());
+            candidatoExistente.setDireccion(registroDTO.getDireccion());
+            candidatoExistente.setTelefono(registroDTO.getTelefono());
+            // Otros datos que necesites actualizar...
 
-        System.out.println(candidatoExistente.toString());
-        candidatoRepositorio.save(candidato);
-        if (session.getAttribute("candidato") != null){
+            candidatoRepositorio.save(candidatoExistente);
+        } else if (empresaExistente != null) {
+            empresaExistente.setNombres(registroDTO.getNombres());
+            empresaExistente.setApellidos(registroDTO.getApellidos());
+            empresaExistente.setTipo_identificacion(registroDTO.getTipo_identificacion());
+            empresaExistente.setNumero_identificacion(registroDTO.getNumero_identificacion());
+            empresaExistente.setDireccion(registroDTO.getDireccion());
+            empresaExistente.setTelefono(registroDTO.getTelefono());
+
+            empresaRepositorio.save(empresaExistente);
+        }
+
+        // Redirigir a la siguiente página según el tipo de usuario
+        if (session.getAttribute("candidato") != null) {
             return "redirect:/postulacion/curriculum";
-        }else {
+        } else {
             return "redirect:/";
         }
-
     }
 
     @GetMapping("/paginacandidato")
