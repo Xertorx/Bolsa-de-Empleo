@@ -3,17 +3,20 @@ package co.edu.ucentral.Bolsa_Empleo.controlador;
 
 import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.Candidato;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.Empresa;
+import co.edu.ucentral.Bolsa_Empleo.persistencia.repositorios.CandidatoRepositorio;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.EmpresaServicio;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.CandidatoServicio;
+
+import java.io.IOException;
 import java.util.Optional;
 
 @Controller
@@ -22,6 +25,8 @@ public class CandidatosControlador {
     @Autowired
     private CandidatoServicio candidatoServicio;
 
+    @Autowired
+    private CandidatoRepositorio candidatoRepositorio;
     @Autowired
     private EmpresaServicio empresaServicio;
 
@@ -38,7 +43,8 @@ public class CandidatosControlador {
     @PostMapping("/registro")
     public String registrarUsuario(@RequestParam String correo, @RequestParam String contrasena,
                                    @RequestParam String nombres, @RequestParam String apellidos,
-                                   @RequestParam String rol, RedirectAttributes redirectAttributes) {
+                                   @RequestParam String rol, RedirectAttributes redirectAttributes,
+                                    HttpSession session ) {
         System.out.println("Correo recibido: " + correo);
         System.out.println("Contraseña recibida: " + contrasena);
         System.out.println("Nombres recibidos: " + nombres);
@@ -58,6 +64,9 @@ public class CandidatosControlador {
             candidato.setApellidos(apellidos);
             candidato.setRol(rol);
             candidatoServicio.registrarCandidato(candidato);
+            session.setAttribute("candidato", candidato);
+            redirectAttributes.addFlashAttribute("mensaje", "Usuario registrado con éxito");
+            return "redirect:/registro/datosPersonales";
         } else if ("Empresa".equalsIgnoreCase(rol)) {
             Empresa empresa = new Empresa();
             empresa.setCorreo(correo);
@@ -66,10 +75,10 @@ public class CandidatosControlador {
             empresa.setApellidos(apellidos);
             empresa.setRol(rol);
             empresaServicio.registrarEmpresa(empresa);
+            session.setAttribute("empresa", empresa);
+            return "redirect:/registro/datosPersonales";
         }
-
-        redirectAttributes.addFlashAttribute("mensaje", "Usuario registrado con éxito");
-        return "redirect:/login";
+        return "redirect:/registro";
     }
 
     @PostMapping("/login")
@@ -94,6 +103,37 @@ public class CandidatosControlador {
         return "redirect:/auth/login";
     }
 
+    @GetMapping("/registro/datosPersonales")
+    public String paginaDatosPersonales(Model model, HttpSession session) {
+        Candidato candidato = (Candidato) session.getAttribute("candidato");
+        System.out.println(candidato.toString());
+        model.addAttribute("candidato", candidato);
+
+        return "Candidatos/datosPersonales";
+    }
+    @PostMapping("/registro/datosPersonales/registrar")
+    public String registrarDatos(@Valid @ModelAttribute("candidato") Candidato candidato,
+                                 BindingResult result, HttpSession session) throws IOException {
+        if (result.hasErrors()) {
+            return "Candidatos/datosPersonales";
+        }
+
+        Candidato candidatoExistente = (Candidato) session.getAttribute("candidato");
+
+        candidato.setId(candidatoExistente.getId());
+        candidato.setCorreo(candidatoExistente.getCorreo());
+        candidato.setContrasena(candidatoExistente.getContrasena());
+        candidato.setRol(candidatoExistente.getRol());
+
+        System.out.println(candidatoExistente.toString());
+        candidatoRepositorio.save(candidato);
+        if (session.getAttribute("candidato") != null){
+            return "redirect:/postulacion/curriculum";
+        }else {
+            return "redirect:/";
+        }
+
+    }
 
     @GetMapping("/paginacandidato")
     public String paginaCandidato() {
