@@ -1,5 +1,6 @@
 // Js para la experiencia
 
+
 function guardarExperiencia() {
         let cargo = document.getElementById("cargo").value;
         let empresa = document.getElementById("empresa").value;

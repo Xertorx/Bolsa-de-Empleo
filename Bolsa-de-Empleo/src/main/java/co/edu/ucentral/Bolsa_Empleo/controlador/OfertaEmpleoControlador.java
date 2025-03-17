@@ -1,8 +1,10 @@
 package co.edu.ucentral.Bolsa_Empleo.controlador;
 
+import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.Candidato;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.Empresa;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.OfertaEmpleo;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.OfertaEmpleoServicio;
+import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.PostulacionServicio;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,8 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/ofertas")
 public class OfertaEmpleoControlador {
+    @Autowired
+    private PostulacionServicio postulacionServicio;
 
     @Autowired
     private OfertaEmpleoServicio ofertaServicio;
@@ -31,7 +35,8 @@ public class OfertaEmpleoControlador {
         model.addAttribute("oferta", new OfertaEmpleo());
         return "OfertaEmpleo";
     }
-//----------------------------------------------------------------------------------------------------------------------------------------
+
+    //----------------------------------------------------------------------------------------------------------------------------------------
     // Guardar Oferta
     @PostMapping("/guardar")
     public String guardarOferta(@ModelAttribute("oferta") OfertaEmpleo oferta, HttpSession session, RedirectAttributes ra) {
@@ -45,7 +50,8 @@ public class OfertaEmpleoControlador {
         ra.addFlashAttribute("mensaje", "Oferta publicada con éxito.");
         return "redirect:/ofertas/lista";
     }
-//----------------------------------------------------------------------------------------------------------------------
+
+    //----------------------------------------------------------------------------------------------------------------------
     // Lista todas las ofertas activas
     @GetMapping("/lista")
     public String listarOfertas(Model model) {
@@ -53,7 +59,8 @@ public class OfertaEmpleoControlador {
         model.addAttribute("ofertas", ofertasActivas);
         return "MostrarOfertas"; // Nombre de la vista: MostrarOfertas.html
     }
-//----------------------------------------------------------------------------------------------------------------------
+
+    //----------------------------------------------------------------------------------------------------------------------
     // Muestra el formulario para editar una oferta existente
     @GetMapping("/editar/{id}")
     public String editarOferta(@PathVariable("id") Long id, Model model, HttpSession session, RedirectAttributes ra) {
@@ -73,7 +80,8 @@ public class OfertaEmpleoControlador {
             return "redirect:/ofertas/lista";
         }
     }
-//----------------------------------------------------------------------------------------------------------------------
+
+    //----------------------------------------------------------------------------------------------------------------------
     // Actualiza la oferta después de editarla
     @PostMapping("/actualizar")
     public String actualizarOferta(@ModelAttribute("oferta") OfertaEmpleo oferta, HttpSession session, RedirectAttributes ra) {
@@ -86,7 +94,8 @@ public class OfertaEmpleoControlador {
         ra.addFlashAttribute("mensaje", "Oferta actualizada con éxito.");
         return "redirect:/ofertas/lista";
     }
-//----------------------------------------------------------------------------------------------------------------------
+
+    //----------------------------------------------------------------------------------------------------------------------
     // Elimina una oferta de empleo
     @GetMapping("/eliminar/{id}")
     public String eliminarOferta(@PathVariable("id") Long id, HttpSession session, RedirectAttributes ra) {
@@ -105,4 +114,26 @@ public class OfertaEmpleoControlador {
         }
         return "redirect:/ofertas/lista";
     }
+
+
+    @PostMapping("/postular/{id}")
+    public String postular(@PathVariable("id") Long idOferta, HttpSession session, RedirectAttributes redirectAttributes) {
+        Candidato candidato = (Candidato) session.getAttribute("candidato");
+
+        if (candidato == null) {
+            redirectAttributes.addFlashAttribute("mensajeError", "Debes iniciar sesión para postularte.");
+            return "redirect:/login";
+        }
+
+        boolean exito = postulacionServicio.registrarPostulacion(candidato, idOferta);
+
+        if (exito) {
+            redirectAttributes.addFlashAttribute("mensajeExito", "Tu postulación ha sido registrada exitosamente.");
+        } else {
+            redirectAttributes.addFlashAttribute("mensajeError", "Ya te has postulado a esta oferta.");
+        }
+
+        return "redirect:/"; // Redirige al usuario a la página principal
+    }
 }
+
