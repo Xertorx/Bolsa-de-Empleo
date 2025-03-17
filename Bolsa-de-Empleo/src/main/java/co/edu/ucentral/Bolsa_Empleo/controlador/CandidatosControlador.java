@@ -104,7 +104,7 @@ public class CandidatosControlador {
             }
         }
         redirectAttributes.addFlashAttribute("error", "Credenciales incorrectas");
-        return "redirect:/auth/login";
+        return "redirect:/login";
     }
 
     @GetMapping("/registro/datosPersonales")
