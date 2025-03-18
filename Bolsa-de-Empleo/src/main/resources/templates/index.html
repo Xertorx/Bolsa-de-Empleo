@@ -123,107 +123,20 @@
         <div class="row mt-5">
             <!-- Lista de empleos -->
             <div class="col-md-5">
-                <div class="list-group"  >
-                    <a href="#" class="list-group-item list-group-item-action " >
-                        <div class="d-flex w-100 align-items-center" style="height: 100px;">
-                            <img th:src="@{/assets/IMG-5.png}" alt="Imagen de ejemplo" class="me-2" width="50px">
-                            <div class="flex-grow-1 ">
-                                <h6 class="mb-1">Desarrollador de Software</h6>
-                                <small>Bogotá D.C</small>
-                            </div>
-                            <div class="w-50">
-                                <small>Temporal | $1.600.000, 6 meses de contrato</small>
-                            </div>
-                            <span class="text-muted">→</span>
-                        </div>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action" >
-                        <div class="d-flex w-100 align-items-center d" style="height: 100px;">
-                            <img th:src="@{/assets/IMG-5.png}" alt="Imagen de ejemplo" class="me-2" width="50px">
-                            <div class="flex-grow-1">
-                                <h6 class="mb-1">Desarrollador de Software</h6>
-                                <small>Bogotá D.C</small>
-                            </div>
-                            <div class="w-50">
-                                <small>Temporal | $1.600.000, 6 meses de contrato</small>
-                            </div>
-                            <span class="text-muted">→</span>
-                        </div>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action" >
+                <div class="list-group" th:if="${ofertas != null}" th:each="oferta : ${ofertas}">
+                    <!-- Enlace que apunta a la misma página, pasando ?id=XX -->
+                    <a th:href="@{/?id={ofertaId}(ofertaId=${oferta.id})}"
+                       class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 align-items-center" style="height: 100px;">
                             <img th:src="@{/assets/IMG-5.png}" alt="Imagen de ejemplo" class="me-2" width="50px">
                             <div class="flex-grow-1">
-                                <h6 class="mb-1">Desarrollador de Software</h6>
-                                <small>Bogotá D.C</small>
+                                <h6 class="mb-1" th:text="${oferta.titulo}">Título de la Oferta</h6>
+                                <small th:text="${oferta.ciudad}">Ciudad</small>
                             </div>
                             <div class="w-50">
-                                <small>Temporal | $1.600.000, 6 meses de contrato</small>
-                            </div>
-                            <span class="text-muted">→</span>
-                        </div>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action" >
-                        <div class="d-flex w-100 align-items-center" style="height: 100px;">
-                            <img th:src="@{/assets/IMG-5.png}" alt="Imagen de ejemplo" class="me-2" width="50px">
-                            <div class="flex-grow-1">
-                                <h6 class="mb-1">Desarrollador de Software</h6>
-                                <small>Bogotá D.C</small>
-                            </div>
-                            <div class="w-50">
-                                <small>Temporal | $1.600.000, 6 meses de contrato</small>
-                            </div>
-                            <span class="text-muted">→</span>
-                        </div>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action" >
-                        <div class="d-flex w-100 align-items-center" style="height: 100px;">
-                            <img th:src="@{/assets/IMG-5.png}" alt="Imagen de ejemplo" class="me-2" width="50px">
-                            <div class="flex-grow-1">
-                                <h6 class="mb-1">Desarrollador de Software</h6>
-                                <small>Bogotá D.C</small>
-                            </div>
-                            <div class="w-50">
-                                <small>Temporal | $1.600.000, 6 meses de contrato</small>
-                            </div>
-                            <span class="text-muted">→</span>
-                        </div>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action" >
-                        <div class="d-flex w-100 align-items-center" style="height: 100px;">
-                            <img th:src="@{/assets/IMG-5.png}" alt="Imagen de ejemplo" class="me-2" width="50px">
-                            <div class="flex-grow-1">
-                                <h6 class="mb-1">Desarrollador de Software</h6>
-                                <small>Bogotá D.C</small>
-                            </div>
-                            <div class="w-50">
-                                <small>Temporal | $1.600.000, 6 meses de contrato</small>
-                            </div>
-                            <span class="text-muted">→</span>
-                        </div>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action" >
-                        <div class="d-flex w-100 align-items-center" style="height: 100px;">
-                            <img th:src="@{/assets/IMG-5.png}" alt="Imagen de ejemplo" class="me-2" width="50px">
-                            <div class="flex-grow-1">
-                                <h6 class="mb-1">Desarrollador de Software</h6>
-                                <small>Bogotá D.C</small>
-                            </div>
-                            <div class="w-50">
-                                <small>Temporal | $1.600.000, 6 meses de contrato</small>
-                            </div>
-                            <span class="text-muted">→</span>
-                        </div>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action" >
-                        <div class="d-flex w-100 align-items-center" style="height: 100px;">
-                            <img th:src="@{/assets/IMG-5.png}" alt="Imagen de ejemplo" class="me-2" width="50px">
-                            <div class="flex-grow-1">
-                                <h6 class="mb-1">Desarrollador de Software</h6>
-                                <small>Bogotá D.C</small>
-                            </div>
-                            <div class="w-50">
-                                <small>Temporal | $1.600.000, 6 meses de contrato</small>
+                                <small th:text="'Temporal | $' + ${oferta.salario} + ', ' + ${oferta.duracionContrato}">
+                                    Detalles
+                                </small>
                             </div>
                             <span class="text-muted">→</span>
                         </div>
@@ -232,28 +145,31 @@
             </div>
 
             <!-- Detalle del empleo -->
-            <div class="col-md-7 ">
-                <div class="card p-3">
+            <div class="col-md-7">
+                <div class="card p-3" th:if="${ofertaSeleccionada != null}">
                     <div class="d-flex align-items-center">
                         <img src="https://via.placeholder.com/50" class="me-2" alt="icono">
                         <div class="flex-grow-1">
-                            <h5 class="mb-0">Desarrollador de Software</h5>
-                            <small>BanColombia S.A</small>
+                            <!-- Título de la oferta -->
+                            <h5 class="mb-0" th:text="${ofertaSeleccionada.titulo}">Título</h5>
+                            <!-- Empresa (si tu oferta tiene campo empresa) -->
+                            <small th:text="${ofertaSeleccionada.empresa.nombres}">Empresa</small>
                         </div>
-                        <a>
                         <button class="btn btn-success btn-sm">Aplicar</button>
-                        </a>
                     </div>
                     <hr>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-                        labore.</p>
+                    <!-- Descripción -->
+                    <p th:text="${ofertaSeleccionada.descripcion}">Descripción de la oferta</p>
                     <h6>Requisitos:</h6>
                     <ul class="list-unstyled">
-                        <li>📌 1 año de experiencia</li>
-                        <li>📌 Profesional hasta otros</li>
-                        <li>📌 Salario a convenir</li>
+                        <li th:text="${ofertaSeleccionada.requisitosMinimos}">Requisitos Mínimos</li>
+                        <li th:text="${ofertaSeleccionada.requisitosDeseables}">Requisitos Deseables</li>
+                        <li th:text="'Salario: $' + ${ofertaSeleccionada.salario}">Salario</li>
                     </ul>
-
+                </div>
+                <!-- Si no hay oferta seleccionada, muestra un mensaje o deja vacío -->
+                <div class="card p-3" th:if="${ofertaSeleccionada == null}">
+                    <p>Selecciona una oferta para ver los detalles aquí.</p>
                 </div>
             </div>
         </div>

@@ -99,12 +99,12 @@ public class CandidatosControlador {
         } else if ("Empresa".equalsIgnoreCase(rol)) {
             Optional<Empresa> empresa = empresaServicio.buscarPorCorreo(correo);
             if (empresa.isPresent() && empresa.get().getContrasena().equals(contrasena)) {
-                session.setAttribute("empresa", empresa); // Guardar la empresa
-                return "redirect:/";
+                session.setAttribute("empresa", empresa.get());
+                return "redirect:/paginaempresa";
             }
         }
         redirectAttributes.addFlashAttribute("error", "Credenciales incorrectas");
-        return "redirect:/auth/login";
+        return "redirect:/login";
     }
 
     @GetMapping("/registro/datosPersonales")
