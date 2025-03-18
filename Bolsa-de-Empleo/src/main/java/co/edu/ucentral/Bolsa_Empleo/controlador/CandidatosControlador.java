@@ -150,7 +150,7 @@ public class CandidatosControlador {
             empresaExistente.setDireccion(registroDTO.getDireccion());
             empresaExistente.setTelefono(registroDTO.getTelefono());
 
-            empresaRepositorio.save(empresaExistente);
+            empresaRepositorio.save(empresaExistente); 
         }
 
         // Redirigir a la siguiente página según el tipo de usuario
