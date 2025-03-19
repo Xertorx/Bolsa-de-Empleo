@@ -7,6 +7,7 @@ import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.RegistroDTO;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.repositorios.CandidatoRepositorio;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.repositorios.EmpresaRepositorio;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.EmpresaServicio;
+import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.RecaptchaService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class CandidatosControlador {
 
     @Autowired
     private CandidatoServicio candidatoServicio;
+    @Autowired
+    private RecaptchaService rp;
 
     @Autowired
     private CandidatoRepositorio candidatoRepositorio;
@@ -88,8 +91,14 @@ public class CandidatosControlador {
     @PostMapping("/login")
     public String iniciarSesion(@RequestParam String correo, @RequestParam String contrasena,
                                 @RequestParam String rol, HttpSession session,
-                                RedirectAttributes redirectAttributes) {
-        if ("Candidato".equalsIgnoreCase(rol)) {
+                                RedirectAttributes redirectAttributes,@RequestParam("g-recaptcha-response") String recaptchaResponse,
+                                Model model) {
+        boolean captchaValido = rp.validateCaptcha(recaptchaResponse);
+
+        if (!captchaValido) {
+            model.addAttribute("error", "Verificación reCAPTCHA fallida. Inténtalo de nuevo.");
+            return "login";
+        }else if ("Candidato".equalsIgnoreCase(rol)) {
             Optional<Candidato> candidato = candidatoServicio.buscarPorCorreo(correo);
             if (candidato.isPresent() && candidato.get().getContrasena().equals(contrasena)) {
                 session.setAttribute("candidato", candidato.get()); // Guardar el candidato
@@ -104,7 +113,7 @@ public class CandidatosControlador {
             }
         }
         redirectAttributes.addFlashAttribute("error", "Credenciales incorrectas");
-        return "redirect:/auth/login";
+        return "redirect:/login";
     }
 
     @GetMapping("/registro/datosPersonales")
@@ -150,7 +159,7 @@ public class CandidatosControlador {
             empresaExistente.setDireccion(registroDTO.getDireccion());
             empresaExistente.setTelefono(registroDTO.getTelefono());
 
-            empresaRepositorio.save(empresaExistente);
+            empresaRepositorio.save(empresaExistente); 
         }
 
         // Redirigir a la siguiente página según el tipo de usuario

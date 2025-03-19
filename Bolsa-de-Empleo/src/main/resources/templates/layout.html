@@ -28,8 +28,19 @@
                 <li class="nav-item"><a class="nav-link .border border-success" th:href="@{/}">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link .border border-success" th:href="@{/}">Quiénes Somos</a></li>
                 <li class="nav-item"><a class="nav-link .border border-success" th:href="@{/}">Empresas Aliadas</a></li>
-                <li class="nav-item"><a class="nav-link .border border-success" th:if="${session.candidato == null}" th:href="@{/login}">Iniciar Sesión</a></li>
-                <li class="nav-item"><a class="nav-link .border border-success" th:if="${session.candidato != null}" th:href="@{/logout}">Cerrar Session</a></li>
+                <li class="nav-item">
+                    <a class="nav-link "
+                       th:if="${session.candidato == null and session.empresa == null}"
+                       th:href="@{/login}">
+                        Iniciar Sesión
+                    </a>
+                    <a class="nav-link "
+                       th:if="${session.candidato != null or session.empresa != null}"
+                       th:href="@{/logout}">
+                        Cerrar Sesión
+                    </a>
+                </li>
+
             </ul>
         </div>
     </div>
