@@ -101,12 +101,18 @@
                             <h5 th:text="${ofertaSeleccionada.titulo}">Título</h5>
                             <small th:text="${ofertaSeleccionada.empresa.nombres}">Empresa</small>
                         </div>
-                        <form th:action="@{/ofertas/postular/{id}(id=${ofertaSeleccionada.id})}" method="post" th:if="${session.candidato != null}">
+                        <form th:action="@{/ofertas/postular/{id}(id=${ofertaSeleccionada.id})}" method="post"
+                              th:if="${session.candidato != null and ofertaSeleccionada.numeroVacantes > 0}">
                             <input type="hidden" name="ofertaId" th:value="${ofertaSeleccionada.id}">
                             <button type="submit" class="btn btn-success btn-sm">Aplicar</button>
                         </form>
 
+                        <p class="text-danger fw-bold" th:if="${session.candidato != null and ofertaSeleccionada.numeroVacantes == 0}">
+                            No hay vacantes disponibles para esta oferta.
+                        </p>
+
                         <p class="text-danger" th:if="${session.candidato == null}">Inicia sesión para postularte.</p>
+
                     </div>
                     <hr>
                     <p th:text="${ofertaSeleccionada.descripcion}">Descripción</p>

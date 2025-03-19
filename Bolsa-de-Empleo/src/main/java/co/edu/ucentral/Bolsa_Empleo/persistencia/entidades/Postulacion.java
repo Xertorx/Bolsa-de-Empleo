@@ -11,6 +11,16 @@ public class Postulacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+    @Enumerated(EnumType.STRING)
+    private EstadoPostulacion estado = EstadoPostulacion.PENDIENTE;
+
+    public enum EstadoPostulacion {
+        PENDIENTE, ACEPTADA, RECHAZADA
+    }
+
+
+
     @ManyToOne
     @JoinColumn(name = "candidato_id", nullable = false)
     private Candidato candidato;
@@ -52,5 +62,13 @@ public class Postulacion {
 
     public void setFechaPostulacion(LocalDate fechaPostulacion) {
         this.fechaPostulacion = fechaPostulacion;
+    }
+
+    public EstadoPostulacion getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoPostulacion estado) {
+        this.estado = estado;
     }
 }

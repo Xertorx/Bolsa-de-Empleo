@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Transactional
 @Service
 public class PostulacionServicio {
@@ -25,6 +29,11 @@ public class PostulacionServicio {
             return false;
         }
 
+        // Revisar si no vacntes
+        if (oferta.getNumeroVacantes() <= 0) {
+            return false; // No hay vacanted disponibles
+        }
+
         // Verificar si ya existe una postulación para este candidato en esta oferta
         if (postulacionRepositorio.existsByCandidatoAndOferta(candidato, oferta)) {
             return false;
@@ -36,8 +45,13 @@ public class PostulacionServicio {
         postulacion.setFechaPostulacion(LocalDate.now());
 
         postulacionRepositorio.save(postulacion);
+        // Reducir en 1 el num de vacantes
+        oferta.setNumeroVacantes(oferta.getNumeroVacantes() - 1);
+        ofertaEmpleoRepositorio.save(oferta);  // Guardar el cambio en la BD
+
         return true;
     }
+
     // Método para obtener las postulaciones de un candidato
     public List<Postulacion> obtenerPostulacionesPorCandidato(Candidato candidato) {
         return postulacionRepositorio.findByCandidato(candidato);  // Asumir que existe un método en el repositorio para esto
@@ -51,6 +65,13 @@ public class PostulacionServicio {
     // Método para guardar la postulación
     public void guardar(Postulacion postulacion) {
         postulacionRepositorio.save(postulacion);
+
+
+
+
+    }
     }
 
-}
+
+
+

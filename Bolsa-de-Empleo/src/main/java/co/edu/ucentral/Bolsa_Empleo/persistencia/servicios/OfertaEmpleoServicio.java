@@ -33,19 +33,43 @@ public class OfertaEmpleoServicio {
     }
 
     // Obtener una oferta por su ID
-    public Optional<OfertaEmpleo> obtenerOfertaPorId(Long id) {
+    public  Optional<OfertaEmpleo> obtenerOfertaPorId(Long id) {
         return ofertaRepo.findById(id);
     }
 
     // Actualizar una oferta existente
     public OfertaEmpleo actualizarOferta(OfertaEmpleo oferta) {
-        return ofertaRepo.save(oferta);
+        Optional<OfertaEmpleo> ofertaExistente = ofertaRepo.findById(oferta.getId());
+        if (ofertaExistente.isPresent()) {
+            OfertaEmpleo ofertaActualizada = ofertaExistente.get();
+            ofertaActualizada.setTitulo(oferta.getTitulo());
+            ofertaActualizada.setDescripcion(oferta.getDescripcion());
+            ofertaActualizada.setNumeroVacantes(oferta.getNumeroVacantes());
+            ofertaActualizada.setCiudad(oferta.getCiudad());
+            ofertaActualizada.setCategoria(oferta.getCategoria());
+            ofertaActualizada.setSalario(oferta.getSalario());
+            return ofertaRepo.save(ofertaActualizada);
+        }
+        return null;
     }
 
+
     // Eliminar una oferta
-    public void eliminarOferta(Long id) {
-        ofertaRepo.deleteById(id);
+    public boolean eliminarOferta(Long id) {
+        Optional<OfertaEmpleo> oferta = ofertaRepo.findById(id);
+        if (oferta.isPresent()) {
+            try {
+                ofertaRepo.delete(oferta.get());
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        return false;
     }
+
+
+
 
     // Filtrar ofertas por categoría y ciudad
     public List<OfertaEmpleo> filtrarOfertas(String categoria, String ciudad) {
