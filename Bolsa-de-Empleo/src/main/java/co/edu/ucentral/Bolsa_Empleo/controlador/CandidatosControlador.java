@@ -1,13 +1,12 @@
 package co.edu.ucentral.Bolsa_Empleo.controlador;
 
 
-import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.Candidato;
-import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.Empresa;
-import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.RegistroDTO;
+import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.*;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.repositorios.CandidatoRepositorio;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.repositorios.EmpresaRepositorio;
-import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.EmpresaServicio;
-import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.RecaptchaService;
+import co.edu.ucentral.Bolsa_Empleo.persistencia.repositorios.IEmailInterface;
+import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.*;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.CandidatoServicio;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -29,6 +28,12 @@ public class CandidatosControlador {
     private CandidatoServicio candidatoServicio;
     @Autowired
     private RecaptchaService rp;
+    @Autowired
+    private IEmailInterface email;
+    @Autowired
+    private TareaProgamaCorreoServicio progamar;
+    @Autowired
+    private OfertaEmpleoServicio ofertaServicio;
 
     @Autowired
     private CandidatoRepositorio candidatoRepositorio;
@@ -46,12 +51,13 @@ public class CandidatosControlador {
     public String mostrarRegistro() {
         return "registro";
     }
-
     @PostMapping("/registro")
     public String registrarUsuario(@RequestParam String correo, @RequestParam String contrasena,
                                    @RequestParam String nombres, @RequestParam String apellidos,
-                                   @RequestParam String rol, RedirectAttributes redirectAttributes,
-                                    HttpSession session ) {
+                                   @RequestParam String rol,
+                                   @RequestParam(required = false) boolean recibirOfertas,
+                                   RedirectAttributes redirectAttributes,
+                                   HttpSession session ) {
         System.out.println("Correo recibido: " + correo);
         System.out.println("Contraseña recibida: " + contrasena);
         System.out.println("Nombres recibidos: " + nombres);
@@ -73,6 +79,18 @@ public class CandidatosControlador {
             candidatoServicio.registrarCandidato(candidato);
             session.setAttribute("candidato", candidato);
             redirectAttributes.addFlashAttribute("mensaje", "Usuario registrado con éxito");
+            enviarCorreoBienvenida(correo, nombres, "");
+
+            if (recibirOfertas) {
+                List<OfertaEmpleo> ofertasActivas = ofertaServicio.listarOfertasActivas();
+                progamar.programarEnvioCorreo(() -> {
+                    try {
+                        email.enviarOfertasEmpleo(correo,ofertasActivas);
+                    } catch (MessagingException e) {
+                        throw new RuntimeException(e);
+                    }
+                }, 300000);
+            }
             return "redirect:/registro/datosPersonales";
         } else if ("Empresa".equalsIgnoreCase(rol)) {
             Empresa empresa = new Empresa();
@@ -87,6 +105,27 @@ public class CandidatosControlador {
         }
         return "redirect:/registro";
     }
+
+
+
+    private void enviarCorreoBienvenida(String destinatario, String nombre, String mensaje) {
+        EmailDTO emailDTO = new EmailDTO();
+        emailDTO.setDestinatario(destinatario);
+        emailDTO.setAsunto("Bienvenido a Bolsa de Empleo");
+        emailDTO.setMensaje(mensaje);
+
+        try {
+            email.senMail(emailDTO);
+            System.out.println("Correo de bienvenida enviado a " + destinatario);
+
+        } catch (MessagingException e) {
+            System.err.println("Error al enviar correo: " + e.getMessage());
+            throw new RuntimeException(e);
+
+        }
+    }
+
+
 
     @PostMapping("/login")
     public String iniciarSesion(@RequestParam String correo, @RequestParam String contrasena,
