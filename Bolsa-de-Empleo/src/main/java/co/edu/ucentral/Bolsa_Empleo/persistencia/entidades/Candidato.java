@@ -112,6 +112,5 @@ public class Candidato {
     @OneToMany(mappedBy = "candidato", cascade = CascadeType.ALL)
     private List<Postulacion> postulaciones;
 
-
-
 }
+

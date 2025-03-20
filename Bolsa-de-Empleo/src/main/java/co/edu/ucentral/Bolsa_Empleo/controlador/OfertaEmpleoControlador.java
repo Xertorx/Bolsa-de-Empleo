@@ -3,6 +3,7 @@ package co.edu.ucentral.Bolsa_Empleo.controlador;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.Candidato;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.Empresa;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.OfertaEmpleo;
+import co.edu.ucentral.Bolsa_Empleo.persistencia.entidades.Postulacion;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.OfertaEmpleoServicio;
 import co.edu.ucentral.Bolsa_Empleo.persistencia.servicios.PostulacionServicio;
 import jakarta.servlet.http.HttpSession;
@@ -168,5 +169,66 @@ public class OfertaEmpleoControlador {
         return "redirect:/";
     }
 
+    // MEtodos para ver postulaciones
+
+    @GetMapping("/postulaciones/{id}")
+    public String verPostulaciones(@PathVariable Long id, Model model, HttpSession session, RedirectAttributes ra) {
+        Empresa empresa = (Empresa) session.getAttribute("empresa");
+        if (empresa == null) {
+            ra.addFlashAttribute("error", "Debes iniciar sesión como empresa para ver postulaciones.");
+            return "redirect:/login";
+        }
+
+        Optional<OfertaEmpleo> ofertaOpt = ofertaServicio.obtenerOfertaPorId(id);
+        if (ofertaOpt.isEmpty() || !ofertaOpt.get().getEmpresa().getId().equals(empresa.getId())) {
+            ra.addFlashAttribute("error", "No tienes permisos para ver esta oferta.");
+            return "redirect:/ofertas/lista";
+        }
+
+        List<Postulacion> postulaciones = postulacionServicio.obtenerPostulacionesPorOferta(id);
+        model.addAttribute("oferta", ofertaOpt.get());
+        model.addAttribute("postulaciones", postulaciones);
+
+        return "postulaciones"; // Asegúrate de que esta vista exista en templates/
+    }
+
+    // MÉTODO PARA ACEPTAR UNA POSTULACIÓN
+    @PostMapping("/postulaciones/{id}/aceptar")
+    public String aceptarPostulacion(@PathVariable Long id, RedirectAttributes ra) {
+        Optional<Postulacion> postulacionOpt = postulacionServicio.obtenerPostulacionPorId(id);
+        System.out.println(postulacionOpt.toString());
+
+        if (postulacionOpt.isPresent()) {
+            Postulacion postulacion = postulacionOpt.get();
+            postulacion.setEstado("ACEPTADA");
+            System.out.println(postulacion.toString());
+            postulacionServicio.guardar(postulacion);
+            ra.addFlashAttribute("mensaje", "Postulación aceptada.");
+            return "redirect:/ofertas/postulaciones/{id}" + postulacion.getOferta().getId();
+        }
+
+
+        ra.addFlashAttribute("error", "Error al aceptar la postulación.");
+        return "redirect:/ofertas/lista";
+    }
+
+    // MÉTODO PARA RECHAZAR UNA POSTULACIÓN
+    @PostMapping("/postulaciones/{id}/rechazar")
+    public String rechazarPostulacion(@PathVariable Long id, RedirectAttributes ra) {
+        Optional<Postulacion> postulacionOpt = postulacionServicio.obtenerPostulacionPorId(id);
+
+        if (postulacionOpt.isPresent()) {
+            Postulacion postulacion = postulacionOpt.get();
+            postulacion.setEstado("RECHAZADA");
+            postulacionServicio.guardar(postulacion);
+            ra.addFlashAttribute("mensaje", "Postulación rechazada.");
+            return "redirect:/ofertas/postulaciones/{id}" + postulacion.getOferta().getId();
+        }
+
+        ra.addFlashAttribute("error", "Error al rechazar la postulación.");
+        return "redirect:/ofertas/lista";
+    }
 }
+
+
 
