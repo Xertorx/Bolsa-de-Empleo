@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PostulacionRepositorio extends JpaRepository<Postulacion, Long> {
@@ -19,6 +20,16 @@ public interface PostulacionRepositorio extends JpaRepository<Postulacion, Long>
 
     // Método para verificar si existe una postulación de un candidato a una oferta
     boolean existsByCandidatoAndOferta(Candidato candidato, OfertaEmpleo oferta);
+
+
+
+    Optional<Postulacion> findById(Long id);
+
+
+    @Query("SELECT p FROM Postulacion p WHERE p.oferta.id = :idOferta")
+    List<Postulacion> findByOfertaId(@Param("idOferta") Long idOferta);
+
+
 }
 
 
