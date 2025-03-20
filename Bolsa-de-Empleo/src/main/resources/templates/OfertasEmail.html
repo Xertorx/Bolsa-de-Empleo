@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Ofertas de Empleo</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .container { width: 80%; margin: auto; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #007bff; color: white; }
+    .footer { margin-top: 20px; text-align: center; font-size: 12px; color: gray; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Ofertas de Empleo</h2>
+  <p>Estas son las últimas ofertas de empleo disponibles:</p>
+  <table>
+    <thead>
+    <tr>
+      <th>Título</th>
+      <th>Categoría</th>
+      <th>N° Vacantes</th>
+      <th>Ubicación</th>
+      <th>Salario</th>
+      <th>Fecha Publicación</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="oferta : ${ofertas}">
+      <td th:text="${oferta.titulo}"></td>
+      <td th:text="${oferta.categoria}"></td>
+      <td th:text="${oferta.numeroVacantes}"></td>
+      <td>
+        <span th:text="${oferta.pais}"></span>,
+        <span th:text="${oferta.ciudad}"></span>
+      </td>
+      <td th:text="${oferta.salario}"></td>
+      <td th:text="${oferta.fechaPublicacion}"></td>
+    </tr>
+    </tbody>
+  </table>
+  <p class="footer">Bolsa de Empleo - No responder a este correo.</p>
+</div>
+</body>
+</html>

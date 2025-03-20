@@ -18,6 +18,12 @@ public class CandidatoServicio {
     public Optional<Candidato> buscarPorCorreo(String correo) {
         return candidatoRepositorio.findByCorreo(correo);
     }
+    public Optional<Candidato> obtenerPorId(Long id) {
+        return candidatoRepositorio.findById(id);
+    }
+
+
+
 }
 
 

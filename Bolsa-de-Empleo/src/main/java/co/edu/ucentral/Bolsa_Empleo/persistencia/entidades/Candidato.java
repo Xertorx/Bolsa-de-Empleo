@@ -109,5 +109,8 @@ public class Candidato {
                 ", rol='" + rol + '\'' +
                 '}';
     }
+    @OneToMany(mappedBy = "candidato", cascade = CascadeType.ALL)
+    private List<Postulacion> postulaciones;
 
 }
+
