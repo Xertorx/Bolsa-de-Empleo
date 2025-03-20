@@ -11,7 +11,14 @@
   <h2>Ofertas de Empleo</h2>
   <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
   <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-  <table class="table table-bordered">
+
+  <!-- Si la lista de ofertas está vacía, muestra el mensaje -->
+  <div th:if="${#lists.isEmpty(ofertas)}" class="alert alert-sucess">
+    No se han creado ofertas laborales.
+  </div>
+
+  <!-- Si hay ofertas, muestra la tabla -->
+  <table th:if="${not #lists.isEmpty(ofertas)}" class="table table-bordered">
     <thead>
     <tr>
       <th>Título</th>
@@ -44,6 +51,7 @@
     </tbody>
   </table>
 </div>
+
 <div class="mt-4">
   <a href="/paginaempresa" class="btn btn-secondary">Volver</a>
 </div>
