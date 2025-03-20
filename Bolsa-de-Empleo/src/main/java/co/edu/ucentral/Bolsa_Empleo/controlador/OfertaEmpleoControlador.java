@@ -55,11 +55,17 @@ public class OfertaEmpleoControlador {
     //----------------------------------------------------------------------------------------------------------------------
     // Lista todas las ofertas activas
     @GetMapping("/lista")
-    public String listarOfertas(Model model) {
-        List<OfertaEmpleo> ofertasActivas = ofertaServicio.listarOfertasActivas();
+    public String listarOfertas(Model model, HttpSession session) {
+        Empresa empresa = (Empresa) session.getAttribute("empresa");
+        if (empresa == null) {
+            return "redirect:/login"; // Redirigir si no hay empresa en la sesión
+        }
+
+        List<OfertaEmpleo> ofertasActivas = ofertaServicio.listarOfertasPorEmpresa(empresa.getId());
         model.addAttribute("ofertas", ofertasActivas);
         return "MostrarOfertas"; // Nombre de la vista: MostrarOfertas.html
     }
+
 
     //----------------------------------------------------------------------------------------------------------------------
     // Muestra el formulario para editar una oferta existente
